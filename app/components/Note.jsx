@@ -5,7 +5,7 @@ import ItemTypes from '../constants/itemTypes';
 
 const Note = ({
     connectDragSource, connectDropTarget,
-    children, ...props
+    oMove, id, children, ...props
 }) => {
     return compose(connectDragSource, connectDropTarget)(
         <div {...props}>
@@ -15,10 +15,27 @@ const Note = ({
 };
 const noteSource = {
     beginDrag(props) {
-        console.log('begin dragging note', props);
-        return {};
+        return {
+            id: props.id
+        };
     }
 };
-export default DragSource(ItemTypes.NOTE, noteSource, connect => ({
-    connectDragSource: connect.dragSource()
-}))(Note)
+const noteTarget = {
+    hover(targetProps, monitor) {
+        const targetId = targetProps.id;
+        const sourceProps = monitor.getItem();
+        const sourceId = sourceProps.id;
+        if(sourceId !== targetId) {
+            targetProps.onMove({sourceId, targetId});
+        }
+    }
+};
+
+export default compose(
+    DragSource(ItemTypes.NOTE, noteSource, connect => ({
+        connectDragSource: connect.dragSource()
+    })),
+    DropTarget(ItemTypes.NOTE, noteTarget, connect => ({
+        connectDropTarget: connect.dropTarget()
+    }))
+)(Note)
