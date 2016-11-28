@@ -26,6 +26,11 @@ const Lane = ({
 return (
     <div {...props}>
         <LaneHeader lane={lane} />
+        <Notes
+            notes={selectNotesByIds(notes, lane.notes)}
+            onNoteClick={activateNoteEdit}
+            onEdit={editNote}
+            onDelete={deleteNote} />    
     </div>
     );
 };
