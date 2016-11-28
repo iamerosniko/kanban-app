@@ -4,12 +4,14 @@ import {DragSource, DropTarget} from 'react-dnd';
 import ItemTypes from '../constants/itemTypes';
 
 const Note = ({
-    connectDragSource, connectDropTarget,
-    oMove, id, children, ...props
+    connectDragSource, connectDropTarget, isDragging,
+    isOver, onMove, id, editing, children, ...props
 }) => {
-    return compose(connectDragSource, connectDropTarget)(
-        <div {...props}>
-            {children}
+    const dragSource = editing ? a => a : connectDragSource;
+    return compose(dragSource, connectDropTarget)(
+        <div style={{
+            opacity: isDragging || isOver ? 0 : 1
+            }} {...props}>{children}
         </div>
     );  
 };
@@ -32,10 +34,12 @@ const noteTarget = {
 };
 
 export default compose(
-    DragSource(ItemTypes.NOTE, noteSource, connect => ({
-        connectDragSource: connect.dragSource()
+    DragSource(ItemTypes.NOTE, noteSource, (connect, monitor) => ({
+        connectDragSource: connect.dragSource(),
+        isDragging: monitor.isDragging()
     })),
-    DropTarget(ItemTypes.NOTE, noteTarget, connect => ({
-        connectDropTarget: connect.dropTarget()
+    DropTarget(ItemTypes.NOTE, noteTarget, (connect, monitor) => ({
+        connectDropTarget: connect.dropTarget(),
+        isOver: monitor.isOver()
     }))
 )(Note)
