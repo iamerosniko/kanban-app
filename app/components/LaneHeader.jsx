@@ -10,6 +10,7 @@ export default connect(() => ({}), {
     LaneActions
 })(({lane, LaneActions, NoteActions, ...props}) => {
     const addNote = e => {
+        
         e.stopPropagation();
         const noteId = uuid.v4();
         NoteActions.create({
@@ -20,6 +21,7 @@ export default connect(() => ({}), {
             laneId: lane.id,
             noteId
         });
+        alert('thiss')
     };
     const activateLaneEdit = () => {
         LaneActions.update({

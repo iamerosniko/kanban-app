@@ -12,8 +12,8 @@ import LaneActions from '../actions/LaneActions';
 const App = ({LaneActions, lanes}) => {
     const addLane = () => {
         LaneActions.create({
-        id: uuid.v4(),
-        name: 'New lane'
+            id: uuid.v4(),
+            name: 'New lane'
         });
     };
     return (
