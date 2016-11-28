@@ -12,11 +12,10 @@ onNoteClick=() => {}, onEdit=() => {}, onDelete=() => {}
             <Editable
                 editing={editing}
                 value={task}
-                OnEdit={onEdit.bind(null, id)} />
+                onEdit={onEdit.bind(null, id)} />
             <button onClick={onDelete.bind(null, id)}>x</button>
         </Note>
         </li>
     )}</ul>
 )
 
-    

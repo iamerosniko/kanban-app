@@ -6,7 +6,6 @@ export default ({editing, value, onEdit, ...props}) => {
     }
     return <span {...props}>value: {value}</span>;
 }
-
 const Edit = ({onEdit = () => {}, value, ...props}) => (
 <div onClick={onEdit} {...props}>
     <span>edit: {value}</span>
