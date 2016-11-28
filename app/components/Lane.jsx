@@ -9,20 +9,9 @@ const Lane = ({
     lane, notes, LaneActions, NoteActions, ...props
 }) => {
     const editNote = (id, task) => {
-    NoteActions.update({id, task, editing: false});
+        NoteActions.update({id, task, editing: false});
     };
-    const addNote = e => {
-        e.stopPropagation();
-        const noteId = uuid.v4();
-        NoteActions.create({
-            id: noteId,
-            task: 'New task'
-        });
-        LaneActions.attachToLane({
-            laneId: lane.id,
-            noteId
-        });
-    };  
+    
     const deleteNote = (noteId, e) => {
         e.stopPropagation();
         NoteActions.delete(noteId);
@@ -36,17 +25,7 @@ const Lane = ({
     };
 return (
     <div {...props}>
-        <div className="lane-header">
-            <div className="lane-add-note">
-                <button onClick={addNote}>+</button>
-            </div>
-            <div className="lane-name">{lane.name}</div>
-        </div>
-        <Notes
-            notes={selectNotesByIds(notes, lane.notes)}
-            onNoteClick={activateNoteEdit}
-            onEdit={editNote}
-            onDelete={deleteNote} />
+        <LaneHeader lane={lane} />
     </div>
     );
 };
